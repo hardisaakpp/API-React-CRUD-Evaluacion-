@@ -16,20 +16,24 @@ const AddForm = ({ onAdd }) => {
         <form onSubmit={handleSubmit} className="add-form">
             <input
                 type="text"
-                placeholder="Title"
+                placeholder="Nueva tarea"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
             />
             <textarea
-                placeholder="Body"
+                placeholder="Descripción"
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 required
             />
-            <button type="submit">Add</button>
+            <button type="submit">Añadir</button>
         </form>
     );
+};
+
+AddForm.propTypes = {
+    onAdd: PropTypes.func.isRequired,
 };
 
 export default AddForm;

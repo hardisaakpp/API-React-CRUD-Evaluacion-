@@ -50,11 +50,43 @@
 .App {
   font-family: Arial, sans-serif;
   padding: 20px;
+  width: 600px;
 }
 
 h1 {
   text-align: center;
-  color: #333;
+  animation: rainbow-text 3s infinite;
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+  cursor: default;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  font-size: 7em;
+}
+
+h1:hover {
+  transform: translate(10px, 10px);
+  animation: shadow-pulse 0.5s infinite alternate;
+}
+
+@keyframes rainbow-text {
+  0% { color: red; }
+  14% { color: orange; }
+  28% { color: yellow; }
+  42% { color: green; }
+  57% { color: blue; }
+  71% { color: indigo; }
+  85% { color: violet; }
+  100% { color: red; }
+}
+
+@keyframes shadow-pulse {
+  0% {
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #40e0d0, 0 0 20px #40e0d0, 0 0 25px #40e0d0, 0 0 30px #40e0d0, 0 0 35px #40e0d0;
+  }
+  100% {
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #1e90ff, 0 0 40px #1e90ff, 0 0 50px #1e90ff, 0 0 60px #1e90ff, 0 0 70px #1e90ff;
+  }
 }
 
 .add-form, .edit-form {
@@ -68,7 +100,7 @@ input, textarea {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 button {
@@ -77,8 +109,9 @@ button {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  margin: 7px;
 }
 
 button:hover {
@@ -94,5 +127,5 @@ button:hover {
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 8px;
 }

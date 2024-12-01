@@ -1,35 +1,94 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import api from './services/api';
+import AddForm from './components/AddForm';
+import ItemList from './components/ItemList';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    const [items, setItems] = useState([]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    // Obtener datos
+    const fetchItems = async () => {
+        try {
+            const response = await api.get('/');
+            setItems(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
-export default App
+    useEffect(() => {
+        fetchItems();
+    }, []);
+
+    // Crear nuevo ítem
+    const addItem = async (item) => {
+        try {
+            const response = await api.post('/', item);
+            setItems([...items, response.data]);
+        } catch (error) {
+            console.error('Error adding item:', error);
+        }
+    };
+
+    // Actualizar ítem
+    const updateItem = async (id, updatedItem) => {
+        try {
+            await api.put(`/${id}`, updatedItem);
+            setItems(items.map((item) => (item.id === id ? updatedItem : item)));
+        } catch (error) {
+            console.error('Error updating item:', error);
+        }
+    };
+
+    // Borrar ítem
+    const deleteItem = async (id) => {
+        try {
+            await api.delete(`/${id}`);
+            setItems(items.filter((item) => item.id !== id));
+        } catch (error) {
+            console.error('Error deleting item:', error);
+        }
+    };
+
+    // Efecto para el título
+    useEffect(() => {
+        const title = document.querySelector('h1');
+
+        const handleMouseMove = (e) => {
+            const rect = title.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const moveX = (x - rect.width / 2) / 10;
+            const moveY = (y - rect.height / 2) / 10;
+
+            title.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        };
+
+        const handleMouseLeave = () => {
+            title.style.transform = 'translate(0, 0)';
+        };
+
+        title.addEventListener('mousemove', handleMouseMove);
+        title.addEventListener('mouseleave', handleMouseLeave);
+
+        return () => {
+            title.removeEventListener('mousemove', handleMouseMove);
+            title.removeEventListener('mouseleave', handleMouseLeave);
+        };
+    }, []);
+
+    return (
+        <div className="App">
+            <h1>CRUD App</h1>
+            <h3>Aplicación CRUD - API - React, desarrollada por Isaac.</h3>
+            <AddForm onAdd={addItem} />
+            <ItemList items={items} onDelete={deleteItem} onUpdate={updateItem} />
+        </div>
+    );
+
+
+};
+
+export default App;
