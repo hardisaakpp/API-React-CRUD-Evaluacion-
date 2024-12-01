@@ -28,3 +28,5 @@ This is a simple CRUD (Create, Read, Update, Delete) application built with Reac
 1. Clone the repository:
    ```sh
    https://github.com/hardisaakpp/API-React-CRUD-Evaluacion-.git
+
+![imagen](https://github.com/user-attachments/assets/ad11d259-ff1c-4eaa-b998-5a22905aa6db)
